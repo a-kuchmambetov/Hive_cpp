@@ -1,0 +1,11 @@
+hello world
+world of replacements
+say world again
+no change here
+
+Hello world
+The world is big
+worldwide is not the same as world
+A brave new world appears
+WORLD should not match lowercase world unless you want case-insensitive search
+end of world
