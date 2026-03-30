@@ -1,29 +1,27 @@
 #include "Fixed.hpp"
 #include <cmath>
 
-Fixed::Fixed(const int raw, bool) : _raw(raw) {}
-
 Fixed::Fixed() {
-  std::cout << "Default constructor called\n";
+  // std::cout << "Default constructor called\n";
   _raw = 0;
 }
 
 Fixed::Fixed(const int value) {
-  std::cout << "Int constructor called\n";
+  // std::cout << "Int constructor called\n";
   _raw = value << FRACT;
 }
 Fixed::Fixed(const float value) {
-  std::cout << "Float constructor called\n";
+  // std::cout << "Float constructor called\n";
   _raw = roundf(value * (1 << FRACT));
 }
 
 Fixed::Fixed(const Fixed &other) {
-  std::cout << "Copy constructor called\n";
+  // std::cout << "Copy constructor called\n";
   *this = other;
 }
 
 Fixed &Fixed::operator=(const Fixed &other) {
-  std::cout << "Copy assignment operator called\n";
+  // std::cout << "Copy assignment operator called\n";
 
   if (this == &other)
     return *this;
@@ -32,52 +30,50 @@ Fixed &Fixed::operator=(const Fixed &other) {
   return *this;
 }
 
-Fixed::~Fixed() { std::cout << "Destructor called\n"; }
+Fixed::~Fixed() { /*std::cout << "Destructor called\n";*/ }
 
-bool Fixed::operator>(const Fixed &other) const {
-  return _raw > other._raw;
-}
+bool Fixed::operator>(const Fixed &other) const { return _raw > other._raw; }
 
-bool Fixed::operator<(const Fixed &other) const {
-  return _raw < other._raw;
-}
+bool Fixed::operator<(const Fixed &other) const { return _raw < other._raw; }
 
-bool Fixed::operator>=(const Fixed &other) const {
-  return _raw >= other._raw;
-}
+bool Fixed::operator>=(const Fixed &other) const { return _raw >= other._raw; }
 
-bool Fixed::operator<=(const Fixed &other) const {
-  return _raw <= other._raw;
-}
+bool Fixed::operator<=(const Fixed &other) const { return _raw <= other._raw; }
 
-bool Fixed::operator==(const Fixed &other) const {
-  return _raw == other._raw;
-}
+bool Fixed::operator==(const Fixed &other) const { return _raw == other._raw; }
 
-bool Fixed::operator!=(const Fixed &other) const {
-  return _raw != other._raw;
-}
+bool Fixed::operator!=(const Fixed &other) const { return _raw != other._raw; }
 
 Fixed Fixed::operator+(const Fixed &other) const {
-  return Fixed(_raw + other._raw, true);
+  Fixed tmp;
+
+  tmp.setRawBits(_raw + other._raw);
+  return tmp;
 }
 
 Fixed Fixed::operator-(const Fixed &other) const {
-  return Fixed(_raw - other._raw, true);
+  Fixed tmp;
+
+  tmp.setRawBits(_raw - other._raw);
+  return tmp;
 }
 
 Fixed Fixed::operator*(const Fixed &other) const {
+  Fixed tmp;
   long product;
 
-  product = static_cast<long>(_raw) * other._raw;
-  return Fixed(static_cast<int>(product / (1 << FRACT)), true);
+  product = static_cast<long>(_raw) * other._raw >> 8;
+  tmp.setRawBits(product);
+  return tmp;
 }
 
 Fixed Fixed::operator/(const Fixed &other) const {
+  Fixed tmp;
   long dividend;
 
-  dividend = static_cast<long>(_raw) << FRACT;
-  return Fixed(static_cast<int>(dividend / other._raw), true);
+  dividend = (static_cast<long>(_raw) << FRACT) / other._raw;
+  tmp.setRawBits(dividend);
+  return tmp;
 }
 
 Fixed &Fixed::operator++() {
@@ -134,7 +130,7 @@ void Fixed::setRawBits(int const raw) { _raw = raw; }
 
 float Fixed::toFloat(void) const { return _raw / 256.0; }
 
-int Fixed::toInt(void) const { return _raw / (1 << FRACT); }
+int Fixed::toInt(void) const { return _raw >> 8; }
 
 std::ostream &operator<<(std::ostream &out, const Fixed &fixed) {
   out << fixed.toFloat();

@@ -1,14 +1,10 @@
-#ifndef FIXED_HPP
-#define FIXED_HPP
-
+#pragma once
 #include <iostream>
 
 class Fixed {
 private:
   static const int FRACT = 8;
   int _raw;
-
-  Fixed(const int raw, bool);
 
 public:
   Fixed();
@@ -49,5 +45,3 @@ public:
 };
 
 std::ostream &operator<<(std::ostream &out, const Fixed &fixed);
-
-#endif
