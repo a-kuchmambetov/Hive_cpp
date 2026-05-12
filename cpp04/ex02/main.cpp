@@ -20,8 +20,7 @@ static void printCatAssignmentTest() {
   Cat original;
   original.setIdea(0, "sleep");
 
-  Cat assigned;
-  assigned = original;
+  Cat assigned= original;
   assigned.setIdea(0, "eat");
 
   std::cout << "\nCat assignment operator test\n";
@@ -36,7 +35,7 @@ int main() {
   // Animal test;
 
   {
-    const int SIZE = 4;
+    constexpr int SIZE = 4;
     const Animal *meta[SIZE];
 
     for (int i = 0; i < SIZE; i++)
